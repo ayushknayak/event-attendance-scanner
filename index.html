@@ -639,6 +639,99 @@
 
     }
 
+
+    /* =========================
+       SHORT VIEWPORTS
+       (fit above the fold on phones,
+       so the footer credit is visible
+       without scrolling)
+    ========================= */
+
+    @media (max-height: 820px) {
+
+      .container {
+        padding-top: 16px;
+        padding-bottom: 10px;
+      }
+
+      .ticket-inner {
+        padding: 16px 22px 12px;
+      }
+
+      .ticket-eyebrow {
+        padding: 3px 10px;
+        font-size: 10px;
+      }
+
+      h1 {
+        margin: 10px 0 4px;
+        font-size: 23px;
+      }
+
+      .subtitle {
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+
+      #startButton {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .reader-frame {
+        margin-top: 12px;
+        padding: 8px;
+      }
+
+      .perforation {
+        margin-top: 14px;
+      }
+
+      .manual-box {
+        padding: 2px 0 2px;
+      }
+
+      .manual-box p {
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+
+      .manual-input-row {
+        margin-top: 8px;
+      }
+
+      #manualRollNo,
+      #manualButton {
+        padding: 10px 4px;
+      }
+
+      #result {
+        margin-top: 14px;
+        padding: 14px 16px;
+        min-height: 60px;
+        font-size: 14.5px;
+      }
+
+      footer {
+        margin-top: 10px;
+        padding: 10px 15px 14px;
+        font-size: 12px;
+      }
+
+    }
+
+    @media (max-height: 820px) and (max-width: 500px) {
+
+      .container {
+        padding-top: 12px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+    }
+
   </style>
 
 </head>
@@ -768,7 +861,9 @@
 // APPS SCRIPT BACKEND URL
 // ========================================
 
-const API_URL ="https://script.google.com/macros/s/AKfycbwyrv4azUp9J4skj5vd1c1kmOXmWZUNQpBSjpa3b_acgtq7gkuVyQWHIueEA1tKcyk_Qg/exec";
+const API_URL =
+  "https://script.google.com/macros/s/AKfycby1qmwW-T9_VJmYSwX5R9Qe_-bIrFonLbBkFKAnUOWIoCpcr3mGxJHBql2pvhh6-V2yGA/exec";
+
 
 // ========================================
 // VARIABLES
