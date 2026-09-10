@@ -6,236 +6,370 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"
   >
+
+  <meta name="theme-color" content="#12131A">
 
   <title>Attendance Taker</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --bg: #12131A;
+      --card: #1C1F2B;
+      --card-line: #2B2F40;
+
+      --ink: #F2F3F5;
+      --ink-soft: #9BA3B4;
+      --ink-faint: #656C7D;
+
+      --stamp: #E4574A;
+      --stamp-dark: #B23A2F;
+      --stamp-light: #F2B166;
+
+      --success: #4ADE94;
+      --success-bg: rgba(74, 222, 148, 0.10);
+      --success-flash: rgba(74, 222, 148, 0.22);
+      --success-line: rgba(74, 222, 148, 0.30);
+
+      --warning: #F5C15C;
+      --warning-bg: rgba(245, 193, 92, 0.10);
+      --warning-line: rgba(245, 193, 92, 0.30);
+
+      --error: #FF7A70;
+      --error-bg: rgba(255, 106, 96, 0.10);
+      --error-line: rgba(255, 106, 96, 0.32);
+    }
+
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 15% -10%, rgba(228, 87, 74, 0.14), transparent 45%),
+        radial-gradient(circle at 100% 10%, rgba(242, 177, 102, 0.08), transparent 40%);
+      color: var(--ink);
 
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
 
-      padding: 20px;
+      padding: max(28px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
     }
 
-    .container {
+    .sheet {
       width: 100%;
-      max-width: 500px;
+      max-width: 440px;
+      margin-top: 4vh;
+    }
 
-      background: white;
+    .register-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0 4px 16px;
+      position: relative;
+    }
 
-      padding: 32px;
+    .register-head::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      bottom: 0;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--stamp), var(--stamp-light), var(--stamp));
+      background-size: 200% 100%;
+      animation: shimmer 3.5s ease-in-out infinite;
+    }
 
-      border-radius: 16px;
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    .register-head .mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #1A1310;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--stamp), var(--stamp-light));
+      box-shadow: 0 0 0 1px rgba(228, 87, 74, 0.2), 0 6px 18px rgba(228, 87, 74, 0.35);
+      animation: markPop 0.6s cubic-bezier(.34, 1.56, .64, 1) both;
+    }
+
+    @keyframes markPop {
+      0% { transform: scale(0.5) rotate(-20deg); opacity: 0; }
+      65% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-line);
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      padding: 28px 24px 26px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      animation: cardRise 0.5s ease-out 0.12s both;
+    }
+
+    @keyframes cardRise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
-      margin: 0 0 8px;
-
-      text-align: center;
-
-      font-size: 28px;
-
-      color: #111;
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
     }
 
     .subtitle {
-      margin: 0 0 30px;
-
-      text-align: center;
-
-      color: #666;
-
-      font-size: 14px;
-
-      line-height: 1.5;
+      margin: 20px 0 26px;
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      line-height: 1.55;
+      max-width: 34ch;
     }
 
     .input-label {
       display: block;
-
-      margin-bottom: 8px;
-
-      font-size: 14px;
-
+      margin-bottom: 9px;
+      font-size: 13.5px;
       font-weight: 600;
-
-      color: #222;
+      color: var(--ink);
     }
 
     .email-wrapper {
       display: flex;
-
       width: 100%;
-
-      border: 1px solid #ccc;
-
-      border-radius: 10px;
-
+      border: 1.5px solid var(--card-line);
+      border-radius: 11px;
       overflow: hidden;
-
-      background: white;
+      background: rgba(255, 255, 255, 0.02);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .email-wrapper:focus-within {
-      border-color: #111;
+      border-color: var(--stamp);
+      box-shadow: 0 0 0 4px rgba(228, 87, 74, 0.16);
     }
 
     #email {
       flex: 1;
-
       min-width: 0;
-
       border: none;
-
       outline: none;
-
-      padding: 14px;
-
+      padding: 16px 14px;
       font-size: 16px;
-
-      color: #111;
+      color: var(--ink);
+      background: transparent;
+      font-family: inherit;
     }
 
     #email::placeholder {
-      color: #aaa;
+      color: var(--ink-faint);
     }
 
     .domain {
       display: flex;
-
       align-items: center;
-
-      padding: 0 14px;
-
-      background: #f1f1f1;
-
-      color: #555;
-
+      padding: 0 16px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--ink-soft);
       font-size: 14px;
-
+      font-weight: 600;
       white-space: nowrap;
+      border-left: 1.5px solid var(--card-line);
+    }
+
+    .domain::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background: linear-gradient(135deg, var(--success), #2FB379);
+      box-shadow: 0 0 6px rgba(74, 222, 148, 0.6);
+      flex-shrink: 0;
     }
 
     button {
       width: 100%;
-
-      margin-top: 18px;
-
-      padding: 14px;
-
+      margin-top: 20px;
+      padding: 17px;
       border: none;
-
-      border-radius: 10px;
-
-      background: #111;
-
-      color: white;
-
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--stamp), var(--stamp-dark));
+      color: #FFF3EF;
       font-size: 16px;
-
+      font-family: "Space Grotesk", sans-serif;
       font-weight: 600;
-
+      letter-spacing: 0.01em;
       cursor: pointer;
+      transition: filter 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 8px 22px rgba(228, 87, 74, 0.3);
     }
 
     button:hover {
-      background: #333;
+      filter: brightness(1.08);
+    }
+
+    button:active:not(:disabled) {
+      transform: scale(0.96) rotate(-0.5deg);
+      box-shadow: 0 3px 10px rgba(228, 87, 74, 0.28);
     }
 
     button:disabled {
-      background: #999;
-
+      background: linear-gradient(90deg, #3A3F52, #545B72, #3A3F52);
+      background-size: 220% 100%;
+      color: #C7CBD6;
       cursor: not-allowed;
+      box-shadow: none;
+      animation: loadSweep 1.1s linear infinite;
+    }
+
+    @keyframes loadSweep {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 220% 50%; }
     }
 
     #message {
-      margin-top: 22px;
+      margin-top: 20px;
     }
 
     .result {
-      padding: 18px;
-
+      padding: 20px 20px 18px;
       border-radius: 12px;
+      border-left: 4px solid transparent;
+      animation: stampIn 0.4s cubic-bezier(.34, 1.56, .64, 1) both;
+    }
+
+    @keyframes stampIn {
+      0% { opacity: 0; transform: scale(1.14) rotate(-4deg); }
+      60% { opacity: 1; transform: scale(0.97) rotate(1deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes inkSettle {
+      0% { background-color: var(--success-flash); }
+      100% { background-color: var(--success-bg); }
+    }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); }
+      30% { transform: translateX(-4px); }
+      60% { transform: translateX(3px); }
+      80% { transform: translateX(-1px); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(4px); }
+      60% { transform: translateX(-3px); }
+      80% { transform: translateX(2px); }
     }
 
     .success {
-      background: #eaf7ee;
-
-      border: 1px solid #b9e2c4;
+      background: var(--success-bg);
+      border: 1px solid var(--success-line);
+      border-left: 4px solid var(--success);
+      animation: stampIn 0.4s cubic-bezier(.34, 1.56, .64, 1) both,
+                 inkSettle 0.7s ease-out both;
     }
 
     .warning {
-      background: #fff7df;
-
-      border: 1px solid #ead28a;
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-line);
+      border-left: 4px solid var(--warning);
+      animation: stampIn 0.4s cubic-bezier(.34, 1.56, .64, 1) both,
+                 nudge 0.45s ease-in-out 0.4s both;
     }
 
     .error {
-      background: #fdecec;
-
-      border: 1px solid #e5b5b5;
+      background: var(--error-bg);
+      border: 1px solid var(--error-line);
+      border-left: 4px solid var(--error);
+      animation: stampIn 0.4s cubic-bezier(.34, 1.56, .64, 1) both,
+                 shake 0.45s ease-in-out 0.4s both;
     }
 
     .result-title {
       margin-bottom: 10px;
-
-      font-size: 17px;
-
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 16.5px;
       font-weight: 700;
     }
 
+    .success .result-title { color: var(--success); }
+    .warning .result-title { color: var(--warning); }
+    .error .result-title { color: var(--error); }
+
     .student-info {
-      color: #444;
-
-      font-size: 14px;
-
+      color: var(--ink);
+      font-size: 14.5px;
       line-height: 1.7;
     }
 
-    .next-text {
-      margin-top: 12px;
-
-      font-size: 13px;
-
-      color: #666;
+    .student-info strong {
+      font-size: 15.5px;
     }
 
-    @media (max-width: 480px) {
+    .next-text {
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px dashed rgba(242, 243, 245, 0.14);
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
 
-      body {
-        padding: 12px;
-
-        align-items: flex-start;
-
-        padding-top: 40px;
+    @media (max-width: 380px) {
+      .sheet {
+        margin-top: 2vh;
       }
 
-      .container {
-        padding: 24px 18px;
+      .card {
+        padding: 22px 18px 22px;
       }
 
       h1 {
-        font-size: 24px;
-      }
-
-      .domain {
-        padding: 0 10px;
-
-        font-size: 13px;
+        font-size: 23px;
       }
     }
   </style>
@@ -244,49 +378,57 @@
 
 <body>
 
-  <div class="container">
+  <div class="sheet">
 
-    <h1>Attendance Taker</h1>
-
-    <p class="subtitle">
-      Enter the student's KIET email to mark attendance
-    </p>
-
-
-    <label
-      class="input-label"
-      for="email"
-    >
-      KIET Email
-    </label>
-
-
-    <div class="email-wrapper">
-
-      <input
-        type="text"
-        id="email"
-        placeholder="student.25001234"
-        autocomplete="off"
-        autofocus
-      >
-
-      <span class="domain">
-        @kiet.edu
-      </span>
-
+    <div class="register-head">
+      <h1>Attendance Taker</h1>
+      <div class="mark">K</div>
     </div>
 
+    <div class="card">
 
-    <button
-      id="markButton"
-      onclick="markPresent()"
-    >
-      Mark Present
-    </button>
+      <p class="subtitle">
+        Enter the student's KIET email to mark attendance
+      </p>
 
 
-    <div id="message"></div>
+      <label
+        class="input-label"
+        for="email"
+      >
+        KIET Email
+      </label>
+
+
+      <div class="email-wrapper">
+
+        <input
+          type="text"
+          id="email"
+          placeholder="student.25001234"
+          autocomplete="off"
+          autofocus
+          inputmode="email"
+        >
+
+        <span class="domain">
+          @kiet.edu
+        </span>
+
+      </div>
+
+
+      <button
+        id="markButton"
+        onclick="markPresent()"
+      >
+        Mark Present
+      </button>
+
+
+      <div id="message"></div>
+
+    </div>
 
   </div>
 
