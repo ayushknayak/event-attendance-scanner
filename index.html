@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,34 +9,9 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Aptitude Test Attendance</title>
-
-  <!-- QR Scanner Library -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Attendance Taker</title>
 
   <style>
-
-    :root {
-      --navy: #101d33;
-      --navy-deep: #0a1424;
-      --parchment: #f6efdd;
-      --parchment-edge: #e8dcb8;
-      --brass: #b9903f;
-      --brass-dark: #8a6a2c;
-      --ink: #1f2a24;
-      --ink-soft: #4b5563;
-      --stamp-green: #1f6f47;
-      --stamp-green-bg: #e4f0e6;
-      --stamp-amber: #a3691a;
-      --stamp-amber-bg: #f6ecd6;
-      --stamp-red: #9c2f2f;
-      --stamp-red-bg: #f5e2e0;
-    }
-
     * {
       box-sizing: border-box;
     }
@@ -45,1500 +19,520 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: 'IBM Plex Sans', Arial, sans-serif;
-
-      background-color: var(--navy);
-      background-image:
-        radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0);
-      background-size: 22px 22px;
-
-      color: var(--ink);
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
 
       display: flex;
-      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-      text-align: center;
+      padding: 20px;
     }
-
-
-    /* =========================
-       MAIN CONTAINER
-    ========================= */
 
     .container {
       width: 100%;
-      max-width: 560px;
-
-      margin: 0 auto;
-
-      padding: 36px 18px 24px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-
-    /* =========================
-       THE HALL TICKET
-    ========================= */
-
-    .hall-ticket {
-      position: relative;
-      width: 100%;
-
-      background: var(--parchment);
-
-      border-radius: 6px;
-
-      box-shadow:
-        0 24px 60px rgba(0,0,0,0.45),
-        0 2px 0 rgba(255,255,255,0.4) inset;
-
-      padding: 2px;
-    }
-
-    .hall-ticket::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border: 1.5px solid var(--brass);
-      border-radius: 3px;
-      pointer-events: none;
-      opacity: 0.55;
-    }
-
-    .ticket-inner {
-      position: relative;
-      padding: 26px 26px 18px;
-    }
-
-    .ticket-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--brass-dark);
-
-      padding: 5px 12px;
-      border: 1px solid var(--brass);
-      border-radius: 20px;
-      background: rgba(185, 144, 63, 0.08);
-    }
-
-    .ticket-eyebrow .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--stamp-green);
-      box-shadow: 0 0 0 3px var(--stamp-green-bg);
-    }
-
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    h1 {
-      margin: 16px 0 6px;
-
-      font-family: 'Special Elite', 'Courier New', monospace;
-      font-size: 27px;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-
-      color: var(--navy-deep);
-    }
-
-
-    .subtitle {
-
-      margin-top: 0;
-
-      margin-bottom: 22px;
-
-      color: var(--ink-soft);
-
-      font-size: 14.5px;
-
-      font-family: 'Space Mono', monospace;
-
-    }
-
-
-    /* =========================
-       SCANNER BUTTON
-    ========================= */
-
-    #startButton {
-
-      width: 100%;
-
-      padding: 16px;
-
-      border: 1.5px solid var(--navy-deep);
-
-      border-radius: 8px;
-
-      cursor: pointer;
-
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 15.5px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-
-      font-weight: 600;
-
-      color: var(--parchment);
-
-      background: var(--navy-deep);
-
-      box-shadow:
-        3px 3px 0 var(--brass);
-
-      transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-
-    }
-
-
-    #startButton:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--brass);
-    }
-
-    #startButton:active {
-
-      transform: translate(2px, 2px);
-      box-shadow: 1px 1px 0 var(--brass);
-
-    }
-
-    #startButton:focus-visible {
-      outline: 2px solid var(--stamp-green);
-      outline-offset: 3px;
-    }
-
-
-    /* =========================
-       QR READER — framed like a viewfinder
-    ========================= */
-
-    .reader-frame {
-      position: relative;
-      margin: 22px auto 0;
-      padding: 14px;
-    }
-
-    .reader-frame::before,
-    .reader-frame::after,
-    .reader-frame span::before,
-    .reader-frame span::after {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border: 3px solid var(--brass);
-    }
-
-    .reader-frame::before { top: 0; left: 0; border-right: none; border-bottom: none; }
-    .reader-frame::after { top: 0; right: 0; border-left: none; border-bottom: none; }
-    .reader-frame span::before { bottom: 0; left: 0; border-right: none; border-top: none; }
-    .reader-frame span::after { bottom: 0; right: 0; border-left: none; border-top: none; }
-
-    #reader {
-
-      width: 100%;
-
-      overflow: hidden;
-
-      border-radius: 4px;
+      max-width: 500px;
 
       background: white;
 
+      padding: 32px;
+
+      border-radius: 16px;
+
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     }
 
+    h1 {
+      margin: 0 0 8px;
 
-    /* =========================
-       PERFORATION DIVIDER
-    ========================= */
+      text-align: center;
 
-    .perforation {
-      position: relative;
-      margin: 26px -26px 0;
-      height: 1px;
-      border-top: 2px dashed var(--parchment-edge);
+      font-size: 28px;
+
+      color: #111;
     }
 
-    .perforation::before,
-    .perforation::after {
-      content: "";
-      position: absolute;
-      top: -9px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--navy-deep);
+    .subtitle {
+      margin: 0 0 30px;
+
+      text-align: center;
+
+      color: #666;
+
+      font-size: 14px;
+
+      line-height: 1.5;
     }
 
-    .perforation::before { left: -9px; }
-    .perforation::after { right: -9px; }
+    .input-label {
+      display: block;
 
-    .perforation-label {
-      position: relative;
-      top: -11px;
-      display: inline-block;
-      background: var(--parchment);
-      padding: 0 10px;
-      font-family: 'Space Mono', monospace;
-      font-size: 10.5px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--ink-soft);
+      margin-bottom: 8px;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      color: #222;
     }
 
-
-    /* =========================
-       MANUAL ENTRY — ledger line
-    ========================= */
-
-    .manual-box {
-
-      margin-top: 4px;
-
-      padding: 4px 0 6px;
-
-      text-align: left;
-
-    }
-
-
-    .manual-box h3 {
-
-      margin: 0 0 4px;
-
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-
-      color: var(--navy-deep);
-
-    }
-
-
-    .manual-box p {
-
-      margin-top: 0;
-      margin-bottom: 14px;
-
-      color: var(--ink-soft);
-
-      font-size: 13px;
-
-    }
-
-
-    .manual-input-row {
-
+    .email-wrapper {
       display: flex;
 
-      gap: 10px;
+      width: 100%;
 
-      margin-top: 15px;
+      border: 1px solid #ccc;
 
+      border-radius: 10px;
+
+      overflow: hidden;
+
+      background: white;
     }
 
+    .email-wrapper:focus-within {
+      border-color: #111;
+    }
 
-    #manualRollNo {
-
+    #email {
       flex: 1;
 
       min-width: 0;
 
-      padding: 13px 4px;
-
       border: none;
-
-      border-bottom: 2px solid var(--brass-dark);
-
-      border-radius: 0;
-
-      background: transparent;
-
-      font-family: 'Space Mono', monospace;
-
-      font-size: 16px;
-
-      letter-spacing: 1px;
-
-      text-transform: uppercase;
-
-      color: var(--navy-deep);
 
       outline: none;
 
-    }
-
-    #manualRollNo::placeholder {
-      color: #b3a888;
-      letter-spacing: 0.5px;
-    }
-
-
-    #manualRollNo:focus {
-
-      border-color: var(--stamp-green);
-
-    }
-
-
-    #manualButton {
-
-      padding: 13px 20px;
-
-      border: 1.5px solid var(--navy-deep);
-
-      border-radius: 6px;
-
-      cursor: pointer;
-
-      font-size: 13px;
-
-      font-weight: 600;
-
-      letter-spacing: 1px;
-
-      text-transform: uppercase;
-
-      color: var(--navy-deep);
-
-      background: transparent;
-
-      transition: all 0.15s ease;
-
-    }
-
-
-    #manualButton:hover {
-      background: var(--navy-deep);
-      color: var(--parchment);
-    }
-
-    #manualButton:active {
-
-      transform: scale(0.97);
-
-    }
-
-    #manualButton:focus-visible {
-      outline: 2px solid var(--stamp-green);
-      outline-offset: 3px;
-    }
-
-
-    /* =========================
-       RESULT — the stamp
-    ========================= */
-
-    #result {
-
-      margin-top: 24px;
-
-      padding: 24px 20px;
-
-      min-height: 84px;
-
-      background: #fbf8f0;
-
-      border: 2px dashed var(--parchment-edge);
-      border-radius: 8px;
+      padding: 14px;
 
       font-size: 16px;
-      line-height: 1.5;
 
-      color: var(--ink-soft);
-      font-family: 'IBM Plex Sans', sans-serif;
+      color: #111;
+    }
 
+    #email::placeholder {
+      color: #aaa;
+    }
+
+    .domain {
       display: flex;
 
       align-items: center;
 
-      justify-content: center;
+      padding: 0 14px;
 
-      transition: all 0.25s ease;
+      background: #f1f1f1;
 
+      color: #555;
+
+      font-size: 14px;
+
+      white-space: nowrap;
     }
 
+    button {
+      width: 100%;
 
-    #result b {
-      font-family: 'Space Mono', monospace;
-    }
+      margin-top: 18px;
 
-    #result.success,
-    #result.warning,
-    #result.error {
+      padding: 14px;
+
+      border: none;
+
+      border-radius: 10px;
+
+      background: #111;
+
+      color: white;
+
+      font-size: 16px;
+
       font-weight: 600;
-      border-style: solid;
-      border-width: 3px;
+
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    button:disabled {
+      background: #999;
+
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 22px;
+    }
+
+    .result {
+      padding: 18px;
+
+      border-radius: 12px;
     }
 
     .success {
+      background: #eaf7ee;
 
-      background: var(--stamp-green-bg) !important;
-
-      color: var(--stamp-green) !important;
-
-      border-color: var(--stamp-green) !important;
-
-      transform: rotate(-1deg);
-
+      border: 1px solid #b9e2c4;
     }
-
 
     .warning {
+      background: #fff7df;
 
-      background: var(--stamp-amber-bg) !important;
-
-      color: var(--stamp-amber) !important;
-
-      border-color: var(--stamp-amber) !important;
-
-      transform: rotate(-1deg);
-
+      border: 1px solid #ead28a;
     }
-
 
     .error {
+      background: #fdecec;
 
-      background: var(--stamp-red-bg) !important;
-
-      color: var(--stamp-red) !important;
-
-      border-color: var(--stamp-red) !important;
-
-      transform: rotate(-1deg);
-
+      border: 1px solid #e5b5b5;
     }
 
+    .result-title {
+      margin-bottom: 10px;
 
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-
-      width: 100%;
-
-      margin-top: 26px;
-
-      padding: 0 15px 26px;
-
-      text-align: center;
-
-      font-size: 15px;
-
-      font-family: 'Space Mono', monospace;
-
-      color: rgba(246, 239, 221, 0.7);
-
-      letter-spacing: 0.2px;
-
-    }
-
-
-    footer strong {
-
-      margin-left: 4px;
+      font-size: 17px;
 
       font-weight: 700;
-
-      color: #f2c265;
-
     }
 
+    .student-info {
+      color: #444;
 
-    .heart {
+      font-size: 14px;
 
-      color: var(--stamp-red);
-
-      font-size: 15px;
-
-      display: inline-block;
-
+      line-height: 1.7;
     }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .heart {
-        animation: heartbeat 1.5s infinite;
+    .next-text {
+      margin-top: 12px;
+
+      font-size: 13px;
+
+      color: #666;
+    }
+
+    @media (max-width: 480px) {
+
+      body {
+        padding: 12px;
+
+        align-items: flex-start;
+
+        padding-top: 40px;
       }
-    }
-
-
-    @keyframes heartbeat {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.2);
-      }
-
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 500px) {
 
       .container {
-
-        padding: 24px 12px 15px;
-
-      }
-
-      .ticket-inner {
-        padding: 22px 18px 16px;
-      }
-
-      .perforation {
-        margin-left: -18px;
-        margin-right: -18px;
+        padding: 24px 18px;
       }
 
       h1 {
-
-        font-size: 22px;
-
+        font-size: 24px;
       }
 
+      .domain {
+        padding: 0 10px;
 
-      .manual-input-row {
-
-        flex-direction: column;
-
-      }
-
-
-      #manualButton {
-
-        width: 100%;
-
-      }
-
-    }
-
-
-    /* =========================
-       SHORT VIEWPORTS
-       (fit above the fold on phones,
-       so the footer credit is visible
-       without scrolling)
-    ========================= */
-
-    @media (max-height: 820px) {
-
-      .container {
-        padding-top: 16px;
-        padding-bottom: 10px;
-      }
-
-      .ticket-inner {
-        padding: 16px 22px 12px;
-      }
-
-      .ticket-eyebrow {
-        padding: 3px 10px;
-        font-size: 10px;
-      }
-
-      h1 {
-        margin: 10px 0 4px;
-        font-size: 23px;
-      }
-
-      .subtitle {
-        margin-bottom: 12px;
         font-size: 13px;
       }
-
-      #startButton {
-        padding: 12px;
-        font-size: 14px;
-      }
-
-      .reader-frame {
-        margin-top: 12px;
-        padding: 8px;
-      }
-
-      .perforation {
-        margin-top: 14px;
-      }
-
-      .manual-box {
-        padding: 2px 0 2px;
-      }
-
-      .manual-box p {
-        margin-bottom: 8px;
-        font-size: 12px;
-      }
-
-      .manual-input-row {
-        margin-top: 8px;
-      }
-
-      #manualRollNo,
-      #manualButton {
-        padding: 10px 4px;
-      }
-
-      #result {
-        margin-top: 14px;
-        padding: 14px 16px;
-        min-height: 60px;
-        font-size: 14.5px;
-      }
-
-      footer {
-        margin-top: 16px;
-        padding: 0 15px 14px;
-        font-size: 13.5px;
-      }
-
     }
-
-    @media (max-height: 820px) and (max-width: 500px) {
-
-      .container {
-        padding-top: 12px;
-      }
-
-      h1 {
-        font-size: 20px;
-      }
-
-    }
-
   </style>
-
 </head>
 
 
 <body>
 
+  <div class="container">
 
-  <main class="container">
+    <h1>Attendance Taker</h1>
 
-    <div class="hall-ticket">
-      <div class="ticket-inner">
-
-        <!-- =========================
-             HEADER
-        ========================= -->
-
-        <span class="ticket-eyebrow"><span class="dot"></span> Hall Ticket · Live Roll Call</span>
-
-        <h1>Aptitude Test Attendance</h1>
-
-        <p class="subtitle">
-          &gt; Scan Student ID Card or Enter Roll Number
-        </p>
+    <p class="subtitle">
+      Enter the student's KIET email to mark attendance
+    </p>
 
 
-        <!-- =========================
-             START SCANNER
-        ========================= -->
-
-        <button id="startButton">
-
-          📷 Start QR Scanner
-
-        </button>
+    <label
+      class="input-label"
+      for="email"
+    >
+      KIET Email
+    </label>
 
 
-        <!-- =========================
-             QR SCANNER
-        ========================= -->
+    <div class="email-wrapper">
 
-        <div class="reader-frame">
-          <span></span>
-          <div id="reader"></div>
-        </div>
+      <input
+        type="text"
+        id="email"
+        placeholder="student.25001234"
+        autocomplete="off"
+        autofocus
+      >
 
+      <span class="domain">
+        @kiet.edu
+      </span>
 
-        <!-- =========================
-             PERFORATION
-        ========================= -->
-
-        <div class="perforation">
-          <span class="perforation-label">Manual Override</span>
-        </div>
+    </div>
 
 
-        <!-- =========================
-             MANUAL ENTRY
-        ========================= -->
-
-        <div class="manual-box">
-
-          <h3>Manual Entry</h3>
-
-          <p>
-            QR not scanning? Enter the ID manually.
-          </p>
+    <button
+      id="markButton"
+      onclick="markPresent()"
+    >
+      Mark Present
+    </button>
 
 
-          <div class="manual-input-row">
+    <div id="message"></div>
 
-            <input
-              type="text"
-              id="manualRollNo"
-              placeholder="Example: 2428IT379"
-              autocomplete="off"
-              autocapitalize="characters"
-            >
+  </div>
 
 
-            <button id="manualButton">
+  <script>
 
-              Mark Present
+    // ==========================================
+    // PASTE YOUR APPS SCRIPT WEB APP URL HERE
+    // ==========================================
 
-            </button>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxKzDiusqRZD3sNx7hXZb2uK84G0if1TpWo0sXpACI6DQWgjIk12bRD2hEOmEAuTOac/exec";
 
+
+    const emailInput =
+      document.getElementById("email");
+
+    const markButton =
+      document.getElementById("markButton");
+
+    const message =
+      document.getElementById("message");
+
+
+    function markPresent() {
+
+      const email =
+        emailInput.value.trim();
+
+
+      if (!email) {
+
+        showError(
+          "Please enter the student's KIET email."
+        );
+
+        emailInput.focus();
+
+        return;
+      }
+
+
+      markButton.disabled = true;
+
+      markButton.textContent = "Checking...";
+
+      message.innerHTML = "";
+
+
+      fetch(API_URL, {
+
+        method: "POST",
+
+        body: JSON.stringify({
+          email: email
+        })
+
+      })
+
+        .then(response => {
+
+          if (!response.ok) {
+            throw new Error("Request failed");
+          }
+
+          return response.json();
+
+        })
+
+        .then(result => {
+
+          showResult(result);
+
+        })
+
+        .catch(error => {
+
+          console.error(error);
+
+          showServerError();
+
+        });
+
+    }
+
+
+    function showResult(result) {
+
+      markButton.disabled = false;
+
+      markButton.textContent = "Mark Present";
+
+
+      if (result.success) {
+
+        message.innerHTML = `
+
+          <div class="result success">
+
+            <div class="result-title">
+              ✓ Attendance Marked
+            </div>
+
+            <div class="student-info">
+
+              <strong>
+                ${escapeHtml(result.name)}
+              </strong>
+
+              <br>
+
+              Roll Number:
+              ${escapeHtml(result.rollNumber)}
+
+              <br>
+
+              ${escapeHtml(result.branch)}
+              • Section
+              ${escapeHtml(result.section)}
+
+            </div>
+
+            <div class="next-text">
+              Ready for the next student.
+            </div>
+
+          </div>
+
+        `;
+
+
+        emailInput.value = "";
+
+        emailInput.focus();
+
+      }
+
+
+      else if (result.alreadyPresent) {
+
+        message.innerHTML = `
+
+          <div class="result warning">
+
+            <div class="result-title">
+              ⚠ Already Present
+            </div>
+
+            <div class="student-info">
+
+              <strong>
+                ${escapeHtml(result.name)}
+              </strong>
+
+              is already marked present.
+
+            </div>
+
+          </div>
+
+        `;
+
+
+        emailInput.select();
+
+        emailInput.focus();
+
+      }
+
+
+      else {
+
+        showError(
+          "Student not found. Please check the KIET email."
+        );
+
+        emailInput.select();
+
+        emailInput.focus();
+
+      }
+
+    }
+
+
+    function showError(text) {
+
+      message.innerHTML = `
+
+        <div class="result error">
+
+          <div class="result-title">
+            ✕ Error
+          </div>
+
+          <div class="student-info">
+            ${escapeHtml(text)}
           </div>
 
         </div>
 
-
-        <!-- =========================
-             RESULT
-        ========================= -->
-
-        <div id="result">
-
-          Ready to scan attendance
-
-        </div>
-
-      </div>
-    </div>
+      `;
 
 
-  </main>
+      markButton.disabled = false;
 
-
-  <!-- =========================
-       FOOTER
-  ========================= -->
-
-  <footer>
-
-    Crafted with
-    <span class="heart">♥</span>
-    by
-    <strong>Ayush Kumar Nayak</strong>
-
-  </footer>
-
-
-<script>
-
-
-// ========================================
-// APPS SCRIPT BACKEND URL
-// ========================================
-
-const API_URL ="https://script.google.com/macros/s/AKfycbwyrv4azUp9J4skj5vd1c1kmOXmWZUNQpBSjpa3b_acgtq7gkuVyQWHIueEA1tKcyk_Qg/exec";
-
-// ========================================
-// VARIABLES
-// ========================================
-
-let scanner;
-
-let isProcessing = false;
-
-let scannerStarted = false;
-
-let lastScannedValue = "";
-
-let lastScanTime = 0;
-
-
-// ========================================
-// SHOW RESULT
-// ========================================
-
-function showResult(message, type = "") {
-
-  const result =
-    document.getElementById("result");
-
-  result.innerHTML = message;
-
-  result.className = type;
-
-}
-
-
-// ========================================
-// BEEP SOUND
-// ========================================
-
-function playBeep(type = "success") {
-
-  try {
-
-    const AudioContextClass =
-      window.AudioContext ||
-      window.webkitAudioContext;
-
-
-    const audioContext =
-      new AudioContextClass();
-
-
-    const oscillator =
-      audioContext.createOscillator();
-
-
-    const gainNode =
-      audioContext.createGain();
-
-
-    oscillator.connect(gainNode);
-
-    gainNode.connect(
-      audioContext.destination
-    );
-
-
-    if (type === "success") {
-
-      oscillator.frequency.value = 900;
-
-    }
-
-    else if (type === "warning") {
-
-      oscillator.frequency.value = 500;
-
-    }
-
-    else {
-
-      oscillator.frequency.value = 250;
+      markButton.textContent = "Mark Present";
 
     }
 
 
-    oscillator.type = "sine";
+    function showServerError() {
 
-
-    gainNode.gain.setValueAtTime(
-      0.12,
-      audioContext.currentTime
-    );
-
-
-    oscillator.start();
-
-
-    oscillator.stop(
-      audioContext.currentTime + 0.12
-    );
-
-  }
-
-  catch (error) {
-
-    console.log(
-      "Audio not supported"
-    );
-
-  }
-
-}
-
-
-// ========================================
-// VIBRATION
-// ========================================
-
-function vibrate(pattern) {
-
-  if (
-    "vibrate" in navigator
-  ) {
-
-    navigator.vibrate(pattern);
-
-  }
-
-}
-
-
-// ========================================
-// SEND ATTENDANCE
-// USING JSONP
-// ========================================
-
-function markAttendance(rollNo) {
-
-  return new Promise(
-    function(resolve, reject) {
-
-
-      const callbackName =
-        "attendanceCallback_" +
-        Date.now() +
-        "_" +
-        Math.floor(
-          Math.random() * 100000
-        );
-
-
-      const script =
-        document.createElement("script");
-
-
-      window[callbackName] =
-        function(response) {
-
-          resolve(response);
-
-          delete window[callbackName];
-
-          if (
-            script.parentNode
-          ) {
-
-            script.remove();
-
-          }
-
-        };
-
-
-      const url =
-        API_URL +
-        "?action=mark" +
-        "&rollNo=" +
-        encodeURIComponent(rollNo) +
-        "&callback=" +
-        callbackName;
-
-
-      script.src = url;
-
-
-      script.onerror =
-        function() {
-
-          reject(
-            new Error(
-              "Could not connect to attendance server"
-            )
-          );
-
-
-          delete window[callbackName];
-
-
-          if (
-            script.parentNode
-          ) {
-
-            script.remove();
-
-          }
-
-        };
-
-
-      document.body.appendChild(
-        script
+      showError(
+        "Something went wrong. Please try again."
       );
 
     }
-  );
-
-}
 
 
-// ========================================
-// PROCESS ATTENDANCE
-// ========================================
+    function escapeHtml(value) {
 
-function processAttendance(rawValue) {
+      const div =
+        document.createElement("div");
 
+      div.textContent =
+        value ?? "";
 
-  if (isProcessing) return;
+      return div.innerHTML;
 
-
-  const rollNo =
-    String(rawValue)
-      .trim()
-      .toUpperCase();
+    }
 
 
-  if (!rollNo) {
+    emailInput.addEventListener(
+      "keydown",
+      function(event) {
 
-    showResult(
-      "⚠️ Please enter a Roll Number",
-      "warning"
-    );
+        if (event.key === "Enter") {
 
-    return;
-
-  }
-
-
-  isProcessing = true;
-
-
-  showResult(
-
-    "⏳ Checking...<br><br>" +
-    "<b>" +
-    rollNo +
-    "</b>",
-
-    "warning"
-
-  );
-
-
-  markAttendance(rollNo)
-
-
-    .then(
-      function(response) {
-
-
-        // ========================
-        // SUCCESS
-        // ========================
-
-        if (
-          response.status ===
-          "success"
-        ) {
-
-          playBeep("success");
-
-          vibrate([100]);
-
-
-          showResult(
-
-            "✅ <b>ATTENDANCE MARKED</b>" +
-
-            "<br><br>" +
-
-            "<b>" +
-            response.name +
-            "</b>" +
-
-            "<br><br>" +
-
-            response.rollNo +
-
-            "<br><br>" +
-
-            "⏰ " +
-            response.time,
-
-            "success"
-
-          );
+          markPresent();
 
         }
-
-
-        // ========================
-        // ALREADY PRESENT
-        // ========================
-
-        else if (
-          response.status ===
-          "already"
-        ) {
-
-          playBeep("warning");
-
-          vibrate([80, 80, 80]);
-
-
-          showResult(
-
-            "⚠️ <b>ALREADY PRESENT</b>" +
-
-            "<br><br>" +
-
-            "<b>" +
-            response.name +
-            "</b>" +
-
-            "<br><br>" +
-
-            response.rollNo,
-
-            "warning"
-
-          );
-
-        }
-
-
-        // ========================
-        // NOT REGISTERED
-        // ========================
-
-        else if (
-          response.status ===
-          "not_found"
-        ) {
-
-          playBeep("error");
-
-          vibrate([200, 100, 200]);
-
-
-          showResult(
-
-            "❌ <b>NOT REGISTERED</b>" +
-
-            "<br><br>" +
-
-            response.rollNo,
-
-            "error"
-
-          );
-
-        }
-
-
-        // ========================
-        // UNKNOWN ERROR
-        // ========================
-
-        else {
-
-          playBeep("error");
-
-
-          showResult(
-
-            "❌ <b>SERVER ERROR</b>",
-
-            "error"
-
-          );
-
-        }
-
-
-        document
-          .getElementById(
-            "manualRollNo"
-          )
-          .value = "";
-
-
-        setTimeout(
-          function() {
-
-            isProcessing = false;
-
-            showResult(
-              "Ready for next student"
-            );
-
-          },
-          2500
-        );
-
-      }
-    )
-
-
-    .catch(
-      function(error) {
-
-        console.error(error);
-
-
-        playBeep("error");
-
-
-        showResult(
-
-          "❌ <b>SERVER ERROR</b>" +
-
-          "<br><br>" +
-
-          error.message,
-
-          "error"
-
-        );
-
-
-        setTimeout(
-          function() {
-
-            isProcessing = false;
-
-          },
-          2500
-        );
 
       }
     );
 
-}
-
-
-// ========================================
-// QR SUCCESS
-// ========================================
-
-function onScanSuccess(decodedText) {
-
-
-  const currentTime =
-    Date.now();
-
-
-  const value =
-    decodedText
-      .trim()
-      .toUpperCase();
-
-
-  // Ignore repeated scanner callbacks
-  if (
-    value === lastScannedValue &&
-    currentTime - lastScanTime < 2000
-  ) {
-
-    return;
-
-  }
-
-
-  if (isProcessing) {
-
-    return;
-
-  }
-
-
-  lastScannedValue =
-    value;
-
-
-  lastScanTime =
-    currentTime;
-
-
-  processAttendance(
-    value
-  );
-
-}
-
-
-// ========================================
-// START CAMERA
-// ========================================
-
-document
-  .getElementById("startButton")
-  .addEventListener(
-    "click",
-    function() {
-
-
-      if (
-        scannerStarted
-      ) {
-
-        return;
-
-      }
-
-
-      scannerStarted = true;
-
-
-      document
-        .getElementById(
-          "startButton"
-        )
-        .style.display =
-          "none";
-
-
-      scanner =
-        new Html5QrcodeScanner(
-
-          "reader",
-
-          {
-
-            fps: 20,
-
-
-            qrbox: function(
-              viewfinderWidth,
-              viewfinderHeight
-            ) {
-
-              const size =
-                Math.min(
-                  viewfinderWidth * 0.9,
-                  viewfinderHeight * 0.9,
-                  350
-                );
-
-
-              return {
-
-                width: size,
-
-                height: size
-
-              };
-
-            },
-
-
-            rememberLastUsedCamera: true,
-
-
-            aspectRatio: 1.7778,
-
-
-            supportedScanTypes: [
-
-              Html5QrcodeScanType
-                .SCAN_TYPE_CAMERA,
-
-              Html5QrcodeScanType
-                .SCAN_TYPE_FILE
-
-            ]
-
-          },
-
-          false
-
-        );
-
-
-      scanner.render(
-        onScanSuccess
-      );
-
-
-      showResult(
-        "📷 Camera starting..."
-      );
-
-    }
-  );
-
-
-// ========================================
-// MANUAL ENTRY BUTTON
-// ========================================
-
-document
-  .getElementById("manualButton")
-  .addEventListener(
-    "click",
-    function() {
-
-      const rollNo =
-        document
-          .getElementById(
-            "manualRollNo"
-          )
-          .value;
-
-
-      processAttendance(
-        rollNo
-      );
-
-    }
-  );
-
-
-// ========================================
-// ENTER KEY SUPPORT
-// ========================================
-
-document
-  .getElementById("manualRollNo")
-  .addEventListener(
-    "keydown",
-    function(event) {
-
-      if (
-        event.key === "Enter"
-      ) {
-
-        event.preventDefault();
-
-
-        const rollNo =
-          event.target.value;
-
-
-        processAttendance(
-          rollNo
-        );
-
-      }
-
-    }
-  );
-
-
-// ========================================
-// AUTO UPPERCASE MANUAL INPUT
-// ========================================
-
-document
-  .getElementById("manualRollNo")
-  .addEventListener(
-    "input",
-    function(event) {
-
-      event.target.value =
-        event.target.value.toUpperCase();
-
-    }
-  );
-
-
-</script>
-
+  </script>
 
 </body>
 
